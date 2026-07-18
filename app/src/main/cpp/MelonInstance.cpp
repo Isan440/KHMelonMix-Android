@@ -18,6 +18,7 @@
 #include "net/Net_Slirp.h"
 #include "Platform.h"
 #include "SDCardArgsBuilder.h"
+#include "khmelonmix/PluginManager.h"
 
 using namespace std;
 using namespace melonDS;
@@ -147,6 +148,33 @@ bool MelonInstance::loadRom(std::string romPath, std::string sramPath)
     if (!cart)
     {
         return false;
+    }
+
+    // KHMELONMIX: identify the loaded game before moving the cart
+    // into the emulator.
+    {
+        const auto& header = cart->GetHeader();
+
+        KHMelonMix::GameIdentity game;
+        game.Title.assign(header.GameTitle, sizeof(header.GameTitle));
+        game.GameCode.assign(header.GameCode, sizeof(header.GameCode));
+        game.MakerCode.assign(header.MakerCode, sizeof(header.MakerCode));
+
+        // Trim trailing NUL/space padding from fixed-size NDS header fields.
+        auto trimField = [](std::string& value)
+        {
+            while (!value.empty() &&
+                   (value.back() == '\0' || value.back() == ' '))
+            {
+                value.pop_back();
+            }
+        };
+
+        trimField(game.Title);
+        trimField(game.GameCode);
+        trimField(game.MakerCode);
+
+        KHMelonMix::PluginManager::Instance().OnGameLoaded(game);
     }
 
     nds->SetNDSCart(std::move(cart));
