@@ -39,7 +39,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build KHMelonMix APK
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: ./gradlew :app:assembleGitHubProdDebug --stacktrace
 
       - name: Find generated APK
         if: always()
