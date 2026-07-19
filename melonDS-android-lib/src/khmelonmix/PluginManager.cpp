@@ -11,6 +11,10 @@ PluginManager& PluginManager::Instance()
 
 bool PluginManager::Initialize()
 {
+
+    // Populate the global plugin registry once before initialization.
+    RegisterBuiltInPlugins();
+
     // The plugin subsystem is global, while MelonInstance can have
     // multiple simultaneous instances. Initialize plugins only for
     // the first active MelonInstance.
@@ -95,4 +99,17 @@ const GameIdentity& PluginManager::GetCurrentGame() const
     return CurrentGame;
 }
 
+}
+
+// Central registration point for built-in KHMelonMix plugins.
+// Individual game plugins will be registered here.
+void KHMelonMix::PluginManager::RegisterBuiltInPlugins()
+{
+    if (BuiltInPluginsRegistered)
+        return;
+
+    BuiltInPluginsRegistered = true;
+
+    // Game-specific plugins will be registered here, for example:
+    // RegisterPlugin(std::make_unique<SomeGamePlugin>());
 }

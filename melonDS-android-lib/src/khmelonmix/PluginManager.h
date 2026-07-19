@@ -20,6 +20,10 @@ public:
 
     void RegisterPlugin(std::unique_ptr<Plugin> plugin);
 
+    // Registers all built-in KHMelonMix game plugins.
+    // Safe to call multiple times; registration only happens once.
+    void RegisterBuiltInPlugins();
+
     // Selects a plugin for the currently loaded ROM.
     // If no plugin supports it, melonDS continues normally.
     void OnGameLoaded(const GameIdentity& game);
@@ -39,6 +43,9 @@ private:
 
     // Number of active MelonInstance users of the global plugin subsystem.
     unsigned int InstanceCount = 0;
+
+    // Prevent duplicate registration when multiple MelonInstance objects exist.
+    bool BuiltInPluginsRegistered = false;
 };
 
 }
