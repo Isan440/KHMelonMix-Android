@@ -45,6 +45,7 @@ add_library(
         # KHMelonMix plugin subsystem
         ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/Plugin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/PluginManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/games/kingdom_hearts_days/KingdomHeartsDaysPlugin.cpp
         ${ANDROID-CPP}/MicInputOboeCallback.cpp
         ${ANDROID-CPP}/NativeGlContext.cpp
         ${ANDROID-CPP}/OboeCallback.cpp

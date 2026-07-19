@@ -1,4 +1,5 @@
 #include "PluginManager.h"
+#include "games/kingdom_hearts_days/KingdomHeartsDaysPlugin.h"
 
 namespace KHMelonMix
 {
@@ -111,5 +112,5 @@ void KHMelonMix::PluginManager::RegisterBuiltInPlugins()
     BuiltInPluginsRegistered = true;
 
     // Game-specific plugins will be registered here, for example:
-    // RegisterPlugin(std::make_unique<SomeGamePlugin>());
+    RegisterPlugin(std::make_unique<KingdomHeartsDaysPlugin>());
 }
