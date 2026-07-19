@@ -2,7 +2,11 @@
 
 #include <string>
 
-#include "NDS.h"
+namespace melonDS
+{
+class NDS;
+}
+
 namespace KHMelonMix
 {
 

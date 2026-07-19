@@ -6,7 +6,6 @@
 #include "Plugin.h"
 #include "GameIdentity.h"
 
-#include "NDS.h"
 namespace KHMelonMix
 {
 
