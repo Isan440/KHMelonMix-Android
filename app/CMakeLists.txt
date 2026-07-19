@@ -43,8 +43,8 @@ add_library(
         ${ANDROID-CPP}/MelonDSNandJNI.cpp
         ${ANDROID-CPP}/MelonInstance.cpp
         # KHMelonMix plugin subsystem
-        ${MELONDS_DIR}/src/khmelonmix/Plugin.cpp
-        ${MELONDS_DIR}/src/khmelonmix/PluginManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/Plugin.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/PluginManager.cpp
         ${ANDROID-CPP}/MicInputOboeCallback.cpp
         ${ANDROID-CPP}/NativeGlContext.cpp
         ${ANDROID-CPP}/OboeCallback.cpp
