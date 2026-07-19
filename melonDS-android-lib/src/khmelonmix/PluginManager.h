@@ -6,11 +6,7 @@
 #include "Plugin.h"
 #include "GameIdentity.h"
 
-namespace melonDS
-{
-class NDS;
-}
-
+#include "NDS.h"
 namespace KHMelonMix
 {
 
