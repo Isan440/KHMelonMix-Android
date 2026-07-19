@@ -11,12 +11,26 @@ std::string KingdomHeartsDaysPlugin::GetName() const
 bool KingdomHeartsDaysPlugin::SupportsGame(const GameIdentity& game) const
 {
     /*
-     * Game recognition will be implemented in the next step.
+     * Phase 1 game identification.
      *
-     * We intentionally do not guess or hard-code a GameCode yet.
-     * Until verified ROM identities are added, this plugin remains inactive.
+     * Do NOT activate the plugin from the ROM title alone.
+     * Nintendo DS GameCode is the authoritative identifier.
+     *
+     * We first capture the real GameCode from a verified
+     * Kingdom Hearts 358/2 Days ROM at runtime.
      */
-    (void)game;
+
+    if (!game.IsValid())
+        return false;
+
+    // Temporary diagnostic recognition only.
+    // This intentionally does NOT activate the plugin yet.
+    const bool titleLooksLikeKingdomHeartsDays =
+        game.Title.find("KINGDOM") != std::string::npos ||
+        game.Title.find("Kingdom") != std::string::npos;
+
+    (void)titleLooksLikeKingdomHeartsDays;
+
     return false;
 }
 

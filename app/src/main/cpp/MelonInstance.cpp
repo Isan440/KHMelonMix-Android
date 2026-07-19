@@ -180,7 +180,20 @@ bool MelonInstance::loadRom(std::string romPath, std::string sramPath)
         trimField(game.GameCode);
         trimField(game.MakerCode);
 
-        KHMelonMix::PluginManager::Instance().OnGameLoaded(game);
+
+        Log(LogLevel::Info,
+            "[KHMelonMix] ROM identity: Title='%s' GameCode='%s' MakerCode='%s'\n",
+            game.Title.c_str(),
+            game.GameCode.c_str(),
+            game.MakerCode.c_str());
+
+        Log(LogLevel::Info,
+        "[KHMelonMix][ROM_ID] Title='%s' GameCode='%s' MakerCode='%s'",
+        game.Title.c_str(),
+        game.GameCode.c_str(),
+        game.MakerCode.c_str());
+
+    KHMelonMix::PluginManager::Instance().OnGameLoaded(game);
     }
 
     nds->SetNDSCart(std::move(cart));
