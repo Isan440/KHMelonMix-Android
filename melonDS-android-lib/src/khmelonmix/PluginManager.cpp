@@ -11,10 +11,19 @@ PluginManager& PluginManager::Instance()
 
 bool PluginManager::Initialize()
 {
+    // The plugin subsystem is global, while MelonInstance can have
+    // multiple simultaneous instances. Initialize plugins only for
+    // the first active MelonInstance.
+    if (InstanceCount++ > 0)
+        return true;
+
     for (auto& plugin : Plugins)
     {
         if (!plugin->Initialize())
+        {
+            InstanceCount = 0;
             return false;
+        }
     }
 
     return true;
@@ -22,6 +31,14 @@ bool PluginManager::Initialize()
 
 void PluginManager::Shutdown()
 {
+    if (InstanceCount == 0)
+        return;
+
+    // Keep the global plugin subsystem alive until the last
+    // MelonInstance has been destroyed.
+    if (--InstanceCount > 0)
+        return;
+
     OnGameUnloaded();
 
     for (auto& plugin : Plugins)

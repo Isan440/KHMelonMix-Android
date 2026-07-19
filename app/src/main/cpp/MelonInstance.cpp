@@ -46,6 +46,9 @@ MelonInstance::MelonInstance(int instanceId, std::shared_ptr<EmulatorConfigurati
 
     net->RegisterInstance(instanceId);
 
+    // KHMelonMix: initialize plugin subsystem
+    KHMelonMix::PluginManager::Instance().Initialize();
+
     if (consoleType == 1)
     {
         melonDS::DSiArgs &dsiArgs = static_cast<melonDS::DSiArgs &>(*args);
@@ -85,6 +88,9 @@ MelonInstance::~MelonInstance()
 {
     frameQueue.clear();
     net->UnregisterInstance(instanceId);
+    // KHMelonMix: shutdown plugin subsystem
+    KHMelonMix::PluginManager::Instance().Shutdown();
+
     delete nds;
 }
 
@@ -430,6 +436,9 @@ u32 MelonInstance::runFrame()
 
 void MelonInstance::stop()
 {
+    // KHMelonMix: notify plugins before tearing down game runtime.
+    KHMelonMix::PluginManager::Instance().OnGameUnloaded();
+
     retroAchievementsManager = nullptr;
     screenshotRenderer->cleanup();
 }

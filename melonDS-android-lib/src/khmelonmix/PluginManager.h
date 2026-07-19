@@ -36,6 +36,9 @@ private:
 
     Plugin* ActivePlugin = nullptr;
     GameIdentity CurrentGame;
+
+    // Number of active MelonInstance users of the global plugin subsystem.
+    unsigned int InstanceCount = 0;
 };
 
 }
