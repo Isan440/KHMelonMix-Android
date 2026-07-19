@@ -10,28 +10,11 @@ std::string KingdomHeartsDaysPlugin::GetName() const
 
 bool KingdomHeartsDaysPlugin::SupportsGame(const GameIdentity& game) const
 {
-    /*
-     * Phase 1 game identification.
-     *
-     * Do NOT activate the plugin from the ROM title alone.
-     * Nintendo DS GameCode is the authoritative identifier.
-     *
-     * We first capture the real GameCode from a verified
-     * Kingdom Hearts 358/2 Days ROM at runtime.
-     */
-
-    if (!game.IsValid())
-        return false;
-
-    // Temporary diagnostic recognition only.
-    // This intentionally does NOT activate the plugin yet.
-    const bool titleLooksLikeKingdomHeartsDays =
-        game.Title.find("KINGDOM") != std::string::npos ||
-        game.Title.find("Kingdom") != std::string::npos;
-
-    (void)titleLooksLikeKingdomHeartsDays;
-
-    return false;
+    // Verified directly from ROM header:
+    // Title     : 358/2 DAYS
+    // GameCode  : YKGE
+    // MakerCode : GD
+    return game.IsValid() && game.GameCode == "YKGE";
 }
 
 bool KingdomHeartsDaysPlugin::Initialize()
@@ -48,6 +31,17 @@ void KingdomHeartsDaysPlugin::Shutdown()
 void KingdomHeartsDaysPlugin::Reset()
 {
     // Reserved for game-specific runtime state.
+}
+
+void KingdomHeartsDaysPlugin::OnFrame(melonDS::NDS& nds)
+{
+    if (!GameLoaded)
+        return;
+
+    // Runtime bridge established.
+    // Memory access will be added only after this callback is wired
+    // safely from MelonInstance::runFrame().
+    (void)nds;
 }
 
 void KingdomHeartsDaysPlugin::OnGameLoaded(const GameIdentity& game)

@@ -15,6 +15,7 @@ public:
     bool Initialize() override;
     void Shutdown() override;
     void Reset() override;
+    void OnFrame(melonDS::NDS& nds) override;
 
     void OnGameLoaded(const GameIdentity& game) override;
     void OnGameUnloaded() override;

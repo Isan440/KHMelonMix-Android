@@ -56,6 +56,12 @@ void PluginManager::Reset()
         ActivePlugin->Reset();
 }
 
+void PluginManager::OnFrame(melonDS::NDS& nds)
+{
+    if (ActivePlugin)
+        ActivePlugin->OnFrame(nds);
+}
+
 void PluginManager::RegisterPlugin(std::unique_ptr<Plugin> plugin)
 {
     if (plugin)

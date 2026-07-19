@@ -6,6 +6,11 @@
 #include "Plugin.h"
 #include "GameIdentity.h"
 
+namespace melonDS
+{
+class NDS;
+}
+
 namespace KHMelonMix
 {
 
@@ -17,6 +22,7 @@ public:
     bool Initialize();
     void Shutdown();
     void Reset();
+    void OnFrame(melonDS::NDS& nds);
 
     void RegisterPlugin(std::unique_ptr<Plugin> plugin);
 

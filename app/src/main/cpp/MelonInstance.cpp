@@ -392,6 +392,10 @@ u32 MelonInstance::runFrame()
     }
 
     u32 nLines = nds->RunFrame();
+
+    // KHMelonMix: run the active game plugin once after each emulated frame.
+    KHMelonMix::PluginManager::Instance().OnFrame(*nds);
+
     retroAchievementsManager->FrameUpdate();
 
     if (!isRendererAccelerated)
