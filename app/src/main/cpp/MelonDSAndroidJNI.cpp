@@ -59,7 +59,7 @@ ThreadSafePerformanceHintSession* performanceHintSession = nullptr;
 extern "C"
 {
 JNIEXPORT void JNICALL
-Java_me_magnum_melonds_MelonEmulator_setupEmulator(JNIEnv* env, jobject thiz, jobject emulatorConfiguration, jobject cameraManager, jobject screenshotBuffer)
+Java_me_magnum_melonds_MelonEmulator_setupEmulator(JNIEnv* env, jobject thiz, jobject emulatorConfiguration, jobject cameraManager, jobject screenshotBuffer, jobject assetManager)
 {
     MelonDSAndroid::EmulatorConfiguration finalEmulatorConfiguration = MelonDSAndroidConfiguration::buildEmulatorConfiguration(env, emulatorConfiguration);
     fastForwardSpeedMultiplier = finalEmulatorConfiguration.fastForwardSpeedMultiplier;
@@ -69,6 +69,11 @@ Java_me_magnum_melonds_MelonEmulator_setupEmulator(JNIEnv* env, jobject thiz, jo
     auto androidEventMessenger = std::make_shared<AndroidMelonEventMessenger>();
     androidCameraHandler = new MelonDSAndroidCameraHandler(jniEnvHandler, globalCameraManager);
     u32* screenshotBufferPointer = (u32*) env->GetDirectBufferAddress(screenshotBuffer);
+
+    AAssetManager* nativeAssetManager =
+            AAssetManager_fromJava(env, assetManager);
+
+    MelonDSAndroid::setKHMelonMixAssetManager(nativeAssetManager);
 
     MelonDSAndroid::setConfiguration(std::move(finalEmulatorConfiguration));
     MelonDSAndroid::setup(androidCameraHandler, std::move(androidEventMessenger), screenshotBufferPointer, 0);
@@ -220,6 +225,12 @@ Java_me_magnum_melonds_MelonEmulator_loadRomInternal(JNIEnv* env, jobject thiz, 
 
     MelonDSAndroid::RomGbaSlotConfig* gbaSlotConfig = buildGbaSlotConfig((GbaSlotType) gbaSlotType, gbaRom, gbaSram);
     int result = MelonDSAndroid::loadRom(rom, sram, gbaSlotConfig);
+
+    if (result == 0 || result == 1)
+    {
+        MelonDSAndroid::probeKHMelonMixAssets();
+    }
+
     delete gbaSlotConfig;
 
     if (isCopy == JNI_TRUE) {

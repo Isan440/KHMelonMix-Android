@@ -19,6 +19,11 @@
 using namespace melonDS;
 
 namespace MelonDSAndroid {
+
+    // KHMelonMix: Android APK asset bridge
+    extern void setKHMelonMixAssetManager(AAssetManager* assetManager);
+    extern bool probeKHMelonMixAssets();
+
     typedef struct {
         std::vector<u32> code;
     } Cheat;

@@ -1,6 +1,7 @@
 package me.magnum.melonds
 
 import android.net.Uri
+import android.content.res.AssetManager
 import me.magnum.melonds.common.camera.DSiCameraSource
 import me.magnum.melonds.domain.model.Cheat
 import me.magnum.melonds.domain.model.EmulatorConfiguration
@@ -49,6 +50,7 @@ object MelonEmulator {
         emulatorConfiguration: EmulatorConfiguration,
         dsiCameraSource: DSiCameraSource?,
         screenshotBuffer: ByteBuffer,
+        assetManager: AssetManager,
     )
 
     external fun setupCheats(cheats: Array<Cheat>)

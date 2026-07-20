@@ -30,6 +30,51 @@
 
 namespace MelonDSAndroid
 {
+
+    // KHMelonMix: AssetManager supplied by Android/JNI.
+    static AAssetManager* khMelonMixAssetManager = nullptr;
+
+    void setKHMelonMixAssetManager(AAssetManager* assetManager)
+    {
+        khMelonMixAssetManager = assetManager;
+        LOG_INFO("[KHMelonMix] AssetManager bridge initialized");
+    }
+
+    bool probeKHMelonMixAssets()
+    {
+        if (!khMelonMixAssetManager)
+        {
+            LOG_WARN("[KHMelonMix] AssetManager unavailable");
+            return false;
+        }
+
+        constexpr const char* path =
+            "khmelonmix/khdays/config/plugin.json";
+
+        AAsset* asset = AAssetManager_open(
+            khMelonMixAssetManager,
+            path,
+            AASSET_MODE_BUFFER
+        );
+
+        if (!asset)
+        {
+            LOG_WARN("[KHMelonMix] Asset probe failed: {}", path);
+            return false;
+        }
+
+        const auto length = AAsset_getLength(asset);
+        AAsset_close(asset);
+
+        LOG_INFO(
+            "[KHMelonMix] Asset probe OK: {} ({} bytes)",
+            path,
+            static_cast<long long>(length)
+        );
+
+        return true;
+    }
+
     OpenGLContext *openGlContext;
     AndroidFileHandler* fileHandler;
     AndroidCameraHandler* cameraHandler;

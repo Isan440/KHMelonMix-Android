@@ -231,6 +231,7 @@ class AndroidEmulatorManager(
             emulatorConfiguration = emulatorConfiguration,
             dsiCameraSource = cameraManager,
             screenshotBuffer = screenshotFrameBufferProvider.frameBuffer(),
+            assetManager = context.assets,
         )
     }
 
