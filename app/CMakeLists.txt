@@ -43,6 +43,7 @@ add_library(
         ${ANDROID-CPP}/MelonDSNandJNI.cpp
         ${ANDROID-CPP}/MelonInstance.cpp
         # KHMelonMix plugin subsystem
+        ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/PluginManager.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../melonDS-android-lib/src/khmelonmix/games/kingdom_hearts_days/KingdomHeartsDaysPlugin.cpp
         ${ANDROID-CPP}/MicInputOboeCallback.cpp
         ${ANDROID-CPP}/NativeGlContext.cpp
