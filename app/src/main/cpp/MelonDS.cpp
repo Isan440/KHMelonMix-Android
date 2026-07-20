@@ -37,14 +37,14 @@ namespace MelonDSAndroid
     void setKHMelonMixAssetManager(AAssetManager* assetManager)
     {
         khMelonMixAssetManager = assetManager;
-        LOG_INFO("[KHMelonMix] AssetManager bridge initialized");
+        Platform::Log(Platform::LogLevel::Info, "[KHMelonMix] AssetManager bridge initialized\n");
     }
 
     bool probeKHMelonMixAssets()
     {
         if (!khMelonMixAssetManager)
         {
-            LOG_WARN("[KHMelonMix] AssetManager unavailable");
+            Platform::Log(Platform::LogLevel::Warn, "[KHMelonMix] AssetManager unavailable\n");
             return false;
         }
 
@@ -59,15 +59,16 @@ namespace MelonDSAndroid
 
         if (!asset)
         {
-            LOG_WARN("[KHMelonMix] Asset probe failed: {}", path);
+            Platform::Log(Platform::LogLevel::Warn, "[KHMelonMix] Asset probe failed: %s\n", path);
             return false;
         }
 
         const auto length = AAsset_getLength(asset);
         AAsset_close(asset);
 
-        LOG_INFO(
-            "[KHMelonMix] Asset probe OK: {} ({} bytes)",
+        Platform::Log(
+            Platform::LogLevel::Info,
+            "[KHMelonMix] Asset probe OK: %s (%lld bytes)\n",
             path,
             static_cast<long long>(length)
         );
