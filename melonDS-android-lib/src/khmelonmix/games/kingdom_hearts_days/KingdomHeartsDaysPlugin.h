@@ -19,6 +19,7 @@ public:
 
     void OnGameLoaded(const GameIdentity& game) override;
     void OnGameUnloaded() override;
+    void OnTextureObserved(const TextureObservation& texture) override;
 
 private:
     bool GameLoaded = false;

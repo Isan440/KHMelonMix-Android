@@ -111,6 +111,12 @@ void PluginManager::OnGameUnloaded()
     CurrentGame = {};
 }
 
+void PluginManager::OnTextureObserved(const TextureObservation& texture)
+{
+    if (ActivePlugin)
+        ActivePlugin->OnTextureObserved(texture);
+}
+
 Plugin* PluginManager::GetActivePlugin() const
 {
     return ActivePlugin;

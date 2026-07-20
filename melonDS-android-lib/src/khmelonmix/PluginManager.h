@@ -31,6 +31,8 @@ public:
 
     void OnGameUnloaded();
 
+    void OnTextureObserved(const TextureObservation& texture);
+
     Plugin* GetActivePlugin() const;
     const GameIdentity& GetCurrentGame() const;
 

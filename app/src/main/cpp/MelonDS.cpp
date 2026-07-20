@@ -4,6 +4,7 @@
 #include <oboe/Oboe.h>
 #include "EmulatorArgsBuilder.h"
 #include "MelonDS.h"
+#include "khmelonmix/PluginManager.h"
 #include "MelonDSAudio.h"
 #include "OboeCallback.h"
 #include "MicInputOboeCallback.h"
@@ -27,6 +28,26 @@
 #include "net/Net.h"
 #include "net/Net_Slirp.h"
 #include <fstream>
+
+
+extern "C" void KHMelonMix_ObserveTexture(
+    melonDS::u32 width,
+    melonDS::u32 height,
+    melonDS::u32 format,
+    melonDS::u64 textureHash0,
+    melonDS::u64 textureHash1,
+    melonDS::u64 paletteHash)
+{
+    KHMelonMix::TextureObservation observation;
+    observation.Width = width;
+    observation.Height = height;
+    observation.Format = format;
+    observation.TextureHash0 = textureHash0;
+    observation.TextureHash1 = textureHash1;
+    observation.PaletteHash = paletteHash;
+
+    KHMelonMix::PluginManager::Instance().OnTextureObserved(observation);
+}
 
 namespace MelonDSAndroid
 {

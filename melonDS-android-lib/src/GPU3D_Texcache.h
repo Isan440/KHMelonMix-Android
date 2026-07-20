@@ -14,6 +14,14 @@
 namespace melonDS
 {
 
+extern "C" void KHMelonMix_ObserveTexture(
+    u32 width,
+    u32 height,
+    u32 format,
+    u64 textureHash0,
+    u64 textureHash1,
+    u64 paletteHash) __attribute__((weak));
+
 inline u32 TextureWidth(u32 texparam)
 {
     return 8 << ((texparam >> 20) & 0x7);
@@ -273,6 +281,19 @@ public:
         freeTextures.pop_back();
 
         entry.Texture = storagePlace;
+
+        // KHMelonMix Phase 2 observation bridge.
+        // Keep the vanilla texture path unchanged.
+        if (KHMelonMix_ObserveTexture)
+        {
+            KHMelonMix_ObserveTexture(
+                width,
+                height,
+                fmt,
+                entry.TextureHash[0],
+                entry.TextureHash[1],
+                entry.TexPalHash);
+        }
 
         TexLoader.UploadTexture(storagePlace.TextureID, width, height, storagePlace.Layer, DecodingBuffer);
         //printf("using storage place %d %d | %d %d (%d)\n", width, height, storagePlace.TexArrayIdx, storagePlace.LayerIdx, array.ImageDescriptor);

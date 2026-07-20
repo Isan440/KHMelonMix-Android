@@ -71,4 +71,29 @@ void KingdomHeartsDaysPlugin::OnGameUnloaded()
     GameLoaded = false;
 }
 
+void KingdomHeartsDaysPlugin::OnTextureObserved(const TextureObservation& texture)
+{
+    if (!GameLoaded)
+        return;
+
+    // Diagnostic only. Keep bounded to avoid flooding logcat.
+    static unsigned int LoggedTextures = 0;
+    if (LoggedTextures >= 32)
+        return;
+
+    __android_log_print(
+        ANDROID_LOG_INFO,
+        "KHMelonMix",
+        "[KHMelonMix][Texture] %ux%u fmt=%u "
+        "texHash0=%016llX texHash1=%016llX palHash=%016llX",
+        texture.Width,
+        texture.Height,
+        texture.Format,
+        texture.TextureHash0,
+        texture.TextureHash1,
+        texture.PaletteHash);
+
+    ++LoggedTextures;
+}
+
 }

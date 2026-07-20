@@ -11,6 +11,17 @@ class NDS;
 namespace KHMelonMix
 {
 
+struct TextureObservation
+{
+    unsigned int Width = 0;
+    unsigned int Height = 0;
+    unsigned int Format = 0;
+
+    unsigned long long TextureHash0 = 0;
+    unsigned long long TextureHash1 = 0;
+    unsigned long long PaletteHash = 0;
+};
+
 class Plugin
 {
 public:
@@ -40,6 +51,13 @@ public:
     // Called before switching away from the active game/plugin.
     virtual void OnGameUnloaded()
     {
+    }
+
+    // Observation-only texture callback.
+    // Replacement lookup will be added in a later Texture System stage.
+    virtual void OnTextureObserved(const TextureObservation& texture)
+    {
+        (void)texture;
     }
 };
 
