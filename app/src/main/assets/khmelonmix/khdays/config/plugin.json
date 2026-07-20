@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pluginId": "kingdom_hearts_days",
+  "gameCode": "YKGE",
+  "title": "Kingdom Hearts 358/2 Days",
+  "assetRoot": "khmelonmix/khdays",
+  "features": {
+    "textures": false,
+    "audio": false,
+    "cutscenes": false,
+    "subtitles": false
+  }
+}
