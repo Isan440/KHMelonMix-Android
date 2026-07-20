@@ -3,6 +3,11 @@
 #include <string>
 #include "GameIdentity.h"
 
+namespace melonDS
+{
+class NDS;
+}
+
 namespace KHMelonMix
 {
 
@@ -19,6 +24,12 @@ public:
     virtual bool Initialize() = 0;
     virtual void Shutdown() = 0;
     virtual void Reset() = 0;
+
+    // Called once after each emulated frame.
+    virtual void OnFrame(melonDS::NDS& nds)
+    {
+        (void)nds;
+    }
 
     // Called when a supported ROM has successfully been identified.
     virtual void OnGameLoaded(const GameIdentity& game)
