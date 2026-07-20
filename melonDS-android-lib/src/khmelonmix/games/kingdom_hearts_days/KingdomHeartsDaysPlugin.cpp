@@ -1,4 +1,5 @@
 #include "KingdomHeartsDaysPlugin.h"
+#include <android/log.h>
 
 namespace KHMelonMix
 {
@@ -38,6 +39,16 @@ void KingdomHeartsDaysPlugin::OnFrame(melonDS::NDS& nds)
     if (!GameLoaded)
         return;
 
+    static bool FirstFrameLogged = false;
+    if (!FirstFrameLogged)
+    {
+        __android_log_print(
+            ANDROID_LOG_INFO,
+            "KHMelonMix",
+            "[KHMelonMix] Kingdom Hearts 358/2 Days first OnFrame reached");
+        FirstFrameLogged = true;
+    }
+
     // Runtime bridge established.
     // Memory access will be added only after this callback is wired
     // safely from MelonInstance::runFrame().
@@ -46,7 +57,12 @@ void KingdomHeartsDaysPlugin::OnFrame(melonDS::NDS& nds)
 
 void KingdomHeartsDaysPlugin::OnGameLoaded(const GameIdentity& game)
 {
-    (void)game;
+    __android_log_print(
+        ANDROID_LOG_INFO,
+        "KHMelonMix",
+        "[KHMelonMix] Kingdom Hearts 358/2 Days OnGameLoaded GameCode='%s'",
+        game.GameCode.c_str());
+
     GameLoaded = true;
 }
 

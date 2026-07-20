@@ -1,5 +1,6 @@
 #include "PluginManager.h"
 #include "games/kingdom_hearts_days/KingdomHeartsDaysPlugin.h"
+#include <android/log.h>
 
 namespace KHMelonMix
 {
@@ -70,6 +71,13 @@ void PluginManager::RegisterPlugin(std::unique_ptr<Plugin> plugin)
 
 void PluginManager::OnGameLoaded(const GameIdentity& game)
 {
+    __android_log_print(
+        ANDROID_LOG_INFO,
+        "KHMelonMix",
+        "[KHMelonMix] PluginManager::OnGameLoaded Title='%s' GameCode='%s' MakerCode='%s'",
+        game.Title.c_str(),
+        game.GameCode.c_str(),
+        game.MakerCode.c_str());
     OnGameUnloaded();
 
     CurrentGame = game;
@@ -79,6 +87,13 @@ void PluginManager::OnGameLoaded(const GameIdentity& game)
         if (plugin->SupportsGame(game))
         {
             ActivePlugin = plugin.get();
+
+            __android_log_print(
+                ANDROID_LOG_INFO,
+                "KHMelonMix",
+                "[KHMelonMix] Selected plugin: %s",
+                ActivePlugin->GetName().c_str());
+
             ActivePlugin->OnGameLoaded(game);
             break;
         }
