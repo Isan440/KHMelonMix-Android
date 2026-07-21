@@ -1,6 +1,7 @@
 #include "KingdomHeartsDaysPlugin.h"
 #include <android/log.h>
 #include "Platform.h"
+#include "PlatformAndroid.h"
 
 namespace KHMelonMix
 {
@@ -10,7 +11,7 @@ namespace
 
 void WriteRuntimeProbe(const char* message)
 {
-    auto* file = melonDS::Platform::OpenLocalFile(
+    auto* file = melonDS::Platform::OpenInternalFile(
         "khmelonmix_runtime_probe.txt",
         melonDS::Platform::FileMode::Append
     );
