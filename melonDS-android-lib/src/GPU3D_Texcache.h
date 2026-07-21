@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <unordered_map>
 #include <vector>
+#include <android/log.h>
 
 #define XXH_STATIC_LINKING_ONLY
 #include "xxhash/xxhash.h"
@@ -168,10 +169,37 @@ public:
 
         assert(fmt != 0 && "no texture is not a texture format!");
 
+        static int khmixGetTextureEnterCount = 0;
+        if (khmixGetTextureEnterCount < 8)
+        {
+            __android_log_print(
+                ANDROID_LOG_INFO,
+                "KHMelonMix",
+                "[KHMelonMix Build #27 GetTexture ENTER] count=%d fmt=%u texParam=%08X palBase=%08X hook=%p",
+                khmixGetTextureEnterCount,
+                fmt,
+                texParam,
+                palBase,
+                reinterpret_cast<void*>(KHMelonMix_ObserveTexture));
+            khmixGetTextureEnterCount++;
+        }
+
         auto it = Cache.find(key);
 
         if (it != Cache.end())
         {
+            static int khmixCacheHitCount = 0;
+            if (khmixCacheHitCount < 8)
+            {
+                __android_log_print(
+                    ANDROID_LOG_INFO,
+                    "KHMelonMix",
+                    "[KHMelonMix Build #27 CACHE HIT] count=%d key=%016llX hook=%p",
+                    khmixCacheHitCount,
+                    (unsigned long long)key,
+                    reinterpret_cast<void*>(KHMelonMix_ObserveTexture));
+                khmixCacheHitCount++;
+            }
             textureHandle = it->second.Texture.TextureID;
             layer = it->second.Texture.Layer;
             helper = &it->second.LastVariant;
@@ -186,6 +214,21 @@ public:
         u32 addr = (texParam & 0xFFFF) * 8;
 
         TexCacheEntry entry = {0};
+
+        static int khmixCacheMissCount = 0;
+        if (khmixCacheMissCount < 8)
+        {
+            __android_log_print(
+                ANDROID_LOG_INFO,
+                "KHMelonMix",
+                "[KHMelonMix Build #27 CACHE MISS] count=%d key=%016llX %ux%u fmt=%u",
+                khmixCacheMissCount,
+                (unsigned long long)key,
+                width,
+                height,
+                fmt);
+            khmixCacheMissCount++;
+        }
 
         entry.TextureRAMStart[0] = addr;
         entry.WidthLog2 = widthLog2;
