@@ -10,7 +10,7 @@ namespace
 
 void WriteRuntimeProbe(const char* message)
 {
-    auto* file = melonDS::Platform::OpenLocalFile(
+    auto* file = melonDS::Platform::OpenInternalFile(
         "khmelonmix_runtime_probe.txt",
         melonDS::Platform::FileMode::Append
     );
