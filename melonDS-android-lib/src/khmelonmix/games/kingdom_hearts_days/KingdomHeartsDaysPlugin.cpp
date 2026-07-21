@@ -1,8 +1,28 @@
 #include "KingdomHeartsDaysPlugin.h"
 #include <android/log.h>
+#include "Platform.h"
 
 namespace KHMelonMix
 {
+
+namespace
+{
+
+void WriteRuntimeProbe(const char* message)
+{
+    auto* file = Platform::OpenInternalFile(
+        "khmelonmix_runtime_probe.txt",
+        Platform::FileMode::Append
+    );
+
+    if (!file)
+        return;
+
+    Platform::FileWriteFormatted(file, "%s\\n", message);
+    Platform::CloseFile(file);
+}
+
+}
 
 std::string KingdomHeartsDaysPlugin::GetName() const
 {
@@ -47,6 +67,7 @@ void KingdomHeartsDaysPlugin::OnFrame(melonDS::NDS& nds)
             "KHMelonMix",
             "[KHMelonMix] Kingdom Hearts 358/2 Days first OnFrame reached");
         FirstFrameLogged = true;
+        WriteRuntimeProbe("FIRST_FRAME");
     }
 
     // Runtime bridge established.
@@ -64,6 +85,8 @@ void KingdomHeartsDaysPlugin::OnGameLoaded(const GameIdentity& game)
         game.GameCode.c_str());
 
     GameLoaded = true;
+
+    WriteRuntimeProbe("GAME_LOADED YKGE");
 }
 
 void KingdomHeartsDaysPlugin::OnGameUnloaded()
@@ -80,6 +103,9 @@ void KingdomHeartsDaysPlugin::OnTextureObserved(const TextureObservation& textur
     static unsigned int LoggedTextures = 0;
     if (LoggedTextures >= 32)
         return;
+
+    if (LoggedTextures == 0)
+        WriteRuntimeProbe("FIRST_TEXTURE_OBSERVED");
 
     __android_log_print(
         ANDROID_LOG_INFO,
